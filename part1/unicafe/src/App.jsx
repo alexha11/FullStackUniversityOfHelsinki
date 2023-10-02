@@ -10,16 +10,24 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [allFeedback, setFeedBack] = useState(0)
 
   const handleClickGood = () => {
     setGood(good + 1)
+    setFeedBack(allFeedback + 1)
   }
   const handleClickNeutral = () => {
     setNeutral(neutral + 1)
+    setFeedBack(allFeedback + 1)
   }
   const handleClickBad = () => {
     setBad(bad + 1)
+    setFeedBack(allFeedback + 1)
   }
+
+  const aveScore = (good - bad)/allFeedback
+  const perPositiveFeed = (good)/allFeedback
+
   return (
     <div>
       <Header text='give feedback'/>
@@ -32,6 +40,9 @@ const App = () => {
       <Statistics text='good' sta={good}/>
       <Statistics text='neutral' sta={neutral}/>
       <Statistics text='bad' sta={bad}/>
+      <Statistics text='all' sta={allFeedback}/>
+      <Statistics text='average' sta={aveScore}/>
+      <Statistics text='positive' sta={perPositiveFeed + ' %'}/>
 
 
     </div>
