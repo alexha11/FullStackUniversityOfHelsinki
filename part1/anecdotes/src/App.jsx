@@ -10,6 +10,7 @@ const Button = ({handleClick, text}) => {
   )
 }
 
+const Header = ({text}) => <h1>{text}</h1>
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [vote, setVote] = useState([0, 0, 0, 0, 0, 0, 0, 0])
+  const [mostVote, setMostVote] = useState(0)
 
   const getSelected = () => {
     let x = Math.floor((Math.random() * 7))
@@ -37,16 +39,31 @@ const App = () => {
     //console.log(selected)
     let arr = [...vote]
     arr[selected] += 1
+    
+    let temp = 0
+    let pos = 0
+    for(let i = 0; i < arr.length; i++) {
+      if (temp < arr[i]) {
+        pos = i
+        temp = arr[i]
+      }
+    }
     console.log(arr)
+    setMostVote(pos)
     setVote(arr)
   }
   
   return (
     <div>
+      <Header text={'Anecdote of the day'}/>
       {anecdotes[selected]}
       <p>has {vote[selected]} votes</p>
       <Button handleClick={updateVote} text={'vote'}/>
       <Button handleClick={getSelected} text={'next anecdotes'}/>
+
+      <Header text={'Anecdote with most votes'}/>
+      {anecdotes[mostVote]}
+      <p>has {vote[mostVote]} votes</p>
     </div>
   )
 }
