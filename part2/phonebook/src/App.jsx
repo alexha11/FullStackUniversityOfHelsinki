@@ -12,7 +12,7 @@ const App = () => {
     }
     setPersons(persons.concat(nameObject))
     setNewName('')
-  }
+  }//Fix a little bit 
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
