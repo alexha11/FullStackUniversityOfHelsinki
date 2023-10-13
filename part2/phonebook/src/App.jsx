@@ -18,7 +18,16 @@ const App = () => {
       name: newName,
       id: persons.length + 1,
     }
-    setPersons(persons.concat(nameObject))
+    let ok = true
+    for(let i = 0; i < persons.length; i++) {
+      if(persons[i].name === newName) {
+        alert(newName + ' is already added to phonebook')
+        ok = false
+      }
+    }
+    if (ok) {
+      setPersons(persons.concat(nameObject))
+    }
     //console.log(persons.name[0])
     setNewName('')
   }//Fix a little bit 
