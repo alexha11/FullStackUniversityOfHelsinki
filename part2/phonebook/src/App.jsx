@@ -35,7 +35,7 @@ const App = () => {
       setPersons([...persons, nameObject]);
     }
     
-    
+    personService.create(nameObject)
     setNewName('');
     setNewNumber('');
   };
