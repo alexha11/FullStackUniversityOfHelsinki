@@ -56,7 +56,7 @@ const App = () => {
   );
 
   const handleDelete = (id, name) => {
-   // window.confirm('Delete ' + name + ' ?')
+   window.confirm('Delete ' + name + ' ?')
       personService
       .remove(id).then((deletedPersons => {
         setPersons(

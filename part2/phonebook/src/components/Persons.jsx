@@ -1,7 +1,9 @@
 const NameLists = ({nameList, handleDelete }) => {
     return (
       <li>
-        {nameList.name} {nameList.number} <button onClick={handleDelete(nameList.id, nameList.name)}>delete</button>
+        {nameList.name} {nameList.number} <button onClick={() => {
+          handleDelete(nameList.id, nameList.name)
+        }}>delete</button>
       </li>
     );
   };
