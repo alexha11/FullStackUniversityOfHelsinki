@@ -67,3 +67,13 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.success-message {
+  font-size: 15px;
+  background-color: lightgrey;
+  border-radius: 5px;
+  border-style: solid;
+  color: green;
+  padding: 10px;
+  margin-bottom: 10px;
+}

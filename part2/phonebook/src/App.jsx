@@ -3,14 +3,14 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import personService from './services/persons';
-
+import './index.css'
 
 const App = () => {
-
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filterName, setFilterName] = useState('');
+  const [successMessage, setSuccessMessage] = useState('')
 
   useEffect(() => {
     personService
@@ -19,6 +19,17 @@ const App = () => {
         setPersons(response.data)
       })
   }, [])
+
+  const Notification = ({message}) => {
+    if(message === null) {
+      return null
+    }
+    return(
+      <div className='success-message'>
+        {message}
+      </div>
+    )
+  }
 
   const addInformation = (event) => {
     event.preventDefault();
@@ -33,10 +44,19 @@ const App = () => {
       console.log(foundPerson.id)
       personService
         .update(foundPerson.id, nameObject)
+      setSuccessMessage('Changed the number of ' + newName)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
         
     } else {
+      setSuccessMessage('Added ' + newName)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
       setPersons([...persons, nameObject]);
       personService.create(nameObject)
+
     }
     setNewName('');
     setNewNumber('');
@@ -72,6 +92,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
+      <Notification message={successMessage}/>
       <Filter filterName={filterName} handleInputChange={handleInputChange}/>
 
       <h3>Add a new</h3>
