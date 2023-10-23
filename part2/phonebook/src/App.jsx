@@ -10,7 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filterName, setFilterName] = useState('');
-  const [successMessage, setSuccessMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -20,12 +21,12 @@ const App = () => {
       })
   }, [])
 
-  const Notification = ({message}) => {
+  const Notification = ({message, cssStyle}) => {
     if(message === null) {
       return null
     }
     return(
-      <div className='success-message'>
+      <div className={cssStyle}>
         {message}
       </div>
     )
@@ -44,10 +45,18 @@ const App = () => {
       console.log(foundPerson.id)
       personService
         .update(foundPerson.id, nameObject)
-      setSuccessMessage('Changed the number of ' + newName)
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+        .then(() => {
+          setSuccessMessage('Changed the number of ' + newName)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
         
     } else {
       setSuccessMessage('Added ' + newName)
@@ -92,7 +101,8 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={successMessage}/>
+      <Notification message={successMessage} cssStyle={'success-message'}/>
+      <Notification message={errorMessage} cssStyle={'failure-message'}/>
       <Filter filterName={filterName} handleInputChange={handleInputChange}/>
 
       <h3>Add a new</h3>
