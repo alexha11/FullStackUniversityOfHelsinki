@@ -116,5 +116,8 @@ const App = () => {
   );
 };
 
-
 export default App;
+//This one still need to change and modify
+//Some errors:
+// - Always delete the last name otherwise it causes some errors -> change this line id: persons.length + 1
+// - Everytime delete or replace new number, have to reloade the page 
