@@ -13,7 +13,7 @@ const SearchCountry = ({country, handleChangeSearchCountry}) => {
   )
 }
 
-const ShownInformation = ({shownInfor}) => {
+const ShownInformation = ({shownInfor, handleShow}) => {
   if(shownInfor.length > 10) {
     return(
       <div>
@@ -25,13 +25,19 @@ const ShownInformation = ({shownInfor}) => {
     return(
       <div>
         {shownInfor.map((infor) => (
-          <div>{infor.name.common}</div>
+          <div>
+            {infor.name.common}
+            <button type='summit' onClick={() => {
+              //console.log(infor.name.common)
+              handleShow(infor.name.common)
+            }}>show</button>
+          </div>
         ))}
       </div>
     )
   }
   else if(shownInfor.length === 1) {
-    console.log(shownInfor[0].flag)
+    //console.log(shownInfor[0].flag)
     // for(const lan in shownInfor[0].languages) {
     //   console.log(shownInfor[0].languages[lan])
     // }
@@ -78,6 +84,10 @@ const App = () => {
     setCountry(event.target.value)
   }
 
+  const handleShow = (name) => {
+    setCountry(name)
+  }
+
   useEffect(() => {
     console.log('effect run, country is now', country)  
     if(country) {
@@ -101,7 +111,7 @@ const App = () => {
   return(
     <div>
       <SearchCountry country={country} handleChangeSearchCountry={handleChangeSearchCountry}/>
-      <ShownInformation shownInfor={shownInformation}/>
+      <ShownInformation shownInfor={shownInformation} handleShow={handleShow}/>
     </div>
   )
 }
