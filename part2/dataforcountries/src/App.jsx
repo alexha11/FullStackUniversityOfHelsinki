@@ -41,53 +41,7 @@ const ShownInformation = ({shownInfor, handleShow}) => {
     // for(const lan in shownInfor[0].languages) {
     //   console.log(shownInfor[0].languages[lan])
     // }
-    const [cityData, setCityData] = useState({})
-
-    const myApi = 'for security'
-    const changeVar = 273.15
-    const cityName = shownInfor[0].capital[0]
-    //const URL = `https://openweathermap.org/img/wn/${cityData.weather[0].icon}@2x.png`
-    useEffect(() => {
-      axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + cityName +'&appid=' + myApi)
-      .then((res) => {
-        //console.log(res.data)
-        setCityData(res.data)
-        
-      })
-    })
-    console.log(cityData.main.temp)
-    return(
-      <div>
-        <h2>
-          {shownInfor[0].name.common}
-        </h2>
-        <div>
-          capital {shownInfor[0].capital[0]}
-        </div>
-        <div>
-          area {shownInfor[0].area}
-        </div>
-        <h3>
-          languages:
-        </h3>
-        <div>
-          {Object.values(shownInfor[0].languages).map(value =><li>{value}</li>)}
-        </div>
-        <div>
-        <img
-         src = {shownInfor[0].flags.png} 
-         alt = {shownInfor[0].flags.alt}
-        >
-        </img>
-        </div>
-        <h2>Weather in {cityData.name}</h2>
-        <div>
-          temperature {(cityData.main.temp - changeVar).toFixed(2)} Celcius
-        </div>
-       
-       
-      </div>
-    )
+    
     
   }
   else {
