@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import './index.css'
+import Temp from './component/Temp'
 
 const SearchCountry = ({country, handleChangeSearchCountry}) => {
   return(
@@ -41,8 +42,9 @@ const ShownInformation = ({shownInfor, handleShow}) => {
     // for(const lan in shownInfor[0].languages) {
     //   console.log(shownInfor[0].languages[lan])
     // }
-    
-    
+    return(
+      <Temp shownInfor={shownInfor[0]}/> 
+    )
   }
   else {
     return(
