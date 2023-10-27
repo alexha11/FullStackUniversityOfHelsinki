@@ -5,7 +5,7 @@ const Temp = (shownInfor) =>  {
     //console.log(shownInfor.shownInfor.name.common)
     
     const [cityData , setCityData] = useState([])
-    const myApi = '7dbf885a4aaa697da1ef065934e59600'
+    const myApi = import.meta.env.VITE_SOME_KEY
     const changeVar = 273.15
     const cityName = shownInfor.shownInfor.capital[0]
 
