@@ -23,6 +23,20 @@ let phonebooks = [
     "number": "39-23-6423122"
   }
 ]
+
+app.use(express.json())
+
+// Route to get the request time and phonebook entries
+app.get('/info', (request, response) => {
+  const date = new Date()
+
+  response.send(
+  `<p>Phonebook has information for ${phonebooks.length} people</p> 
+  <p> ${date} </p>`
+  )
+  
+});
+
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
