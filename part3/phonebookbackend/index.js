@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express')
 const app = express()
 
@@ -54,6 +55,12 @@ app.get('/', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
   response.json(phonebooks)
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  phonebooks = phonebooks.filter(book => book.id !== id)
+  response.status(204).end()
 })
 
 const PORT = 3001
