@@ -37,6 +37,14 @@ app.get('/info', (request, response) => {
 
 });
 
+app.get('/', (request, response) => {
+  response.send('<h1>Hello World!</h1>')
+})
+
+app.get('/api/persons', (request, response) => {
+  response.json(phonebooks)
+})
+
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
   const book = phonebooks.find(book => book.id === id)
@@ -49,20 +57,32 @@ app.get('/api/persons/:id', (req, res) => {
   }
 }) 
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
-app.get('/api/persons', (request, response) => {
-  response.json(phonebooks)
-})
-
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
   phonebooks = phonebooks.filter(book => book.id !== id)
   response.status(204).end()
 })
 
+const generateID = (max) => {
+  return Math.floor(Math.random() * max);
+}
+
+app.post('/api/persons', (req, res) => {
+  const bodyData = req.body
+  if(!bodyData.name) {
+    return(res.status(404).json({
+      error: 'content is missing'
+    }))
+  }
+
+  const phone = {
+    name: bodyData.name,
+    number: "2",
+    id: generateID(1000000),
+  }
+  phonebooks = phonebooks.concat(phone)
+  res.json(phonebooks)
+})
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
