@@ -1,6 +1,7 @@
 const { response } = require('express');
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 let phonebooks = [
   { 
@@ -26,6 +27,8 @@ let phonebooks = [
 ]
 
 app.use(express.json())
+morgan.token('body', (request) => JSON.stringify(request.body))
+app.use(morgan(':method :url :status :response-time ms - :body'))
 
 // Route to get the request time and phonebook entries
 app.get('/info', (request, response) => {
