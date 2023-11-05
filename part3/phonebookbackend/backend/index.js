@@ -2,6 +2,7 @@ const { response } = require('express');
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const cors = require('cors')
 
 let phonebooks = [
   { 
@@ -26,6 +27,8 @@ let phonebooks = [
   }
 ]
 
+app.use(cors()) // Cross-Origin Resource Sharing can be enabled with the cors middleware.
+app.use(express.static('dist')) // The build directory of the frontend is served with the express.static middleware.
 app.use(express.json())
 morgan.token('body', (request) => JSON.stringify(request.body))
 app.use(morgan(':method :url :status :response-time ms - :body'))
