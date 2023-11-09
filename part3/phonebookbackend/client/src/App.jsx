@@ -82,6 +82,7 @@ const App = () => {
   const handleInputChange = (event) => {
     setFilterName(event.target.value);
   };
+  
 
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(filterName.toLowerCase())
