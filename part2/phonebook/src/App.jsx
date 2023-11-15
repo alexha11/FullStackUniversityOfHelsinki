@@ -31,7 +31,7 @@ const App = () => {
       </div>
     )
   }
-
+  
   const addInformation = (event) => {
     event.preventDefault();
     const nameObject = {

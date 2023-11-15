@@ -9,4 +9,5 @@ const Filter = ({filterName, handleInputChange}) => {
     )
   }
 
+
   export default Filter;
