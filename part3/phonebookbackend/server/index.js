@@ -3,60 +3,8 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
-const mongoose = require('mongoose')
-
-const password = process.argv[2]
-const namePerson = process.argv[3]
-const numPerson = process.argv[4]
-
-const url =
-  `mongodb+srv://thanhduonghd114:${password}@cluster0.iv707px.mongodb.net/?retryWrites=true&w=majority`
-
-mongoose.set('strictQuery', false)
-mongoose.connect(url)
-
-const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-})
-
-personSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-
-const Person = mongoose.model('Person', personSchema)
-
-const person = new Person({
-  name: namePerson,
-  number: numPerson,
-})
-
-let phonebooks = [
-  { 
-    "id": 1,
-    "name": "Arto Hellas", 
-    "number": "040-123456"
-  },
-  { 
-    "id": 2,
-    "name": "Ada Lovelace", 
-    "number": "39-44-5323523"
-  },
-  { 
-    "id": 3,
-    "name": "Thu Van", 
-    "number": "12-43-234345"
-  },
-  { 
-    "id": 4,
-    "name": "Duong", 
-    "number": "39-23-6423122"
-  }
-]
+require('dotenv').config()
+const Person = require('./models/phonebook')
 
 app.use(cors()) // Cross-Origin Resource Sharing can be enabled with the cors middleware.
 app.use(express.static('dist')) // The build directory of the frontend is served with the express.static middleware.
@@ -69,7 +17,7 @@ app.use(morgan(':method :url :status :response-time ms - :body'))
 app.get('/info', (request, response) => {
   const date = new Date()
   response.send(
-  `<p>Phonebook has information for ${phonebooks.length} people</p> 
+  `<p>Phonebook has information for ${Person.length} people</p> 
   <p> ${date} </p>`
   )
 
@@ -89,7 +37,7 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
-  const book = phonebooks.find(book => book.id === id)
+  const book = Person.find(book => book.id === id)
 
   if(book) {
     res.json(book)
@@ -101,7 +49,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
-  phonebooks = phonebooks.filter(book => book.id !== id)
+  Person = Person.filter(book => book.id !== id)
   response.status(204).end()
 })
 
@@ -123,7 +71,7 @@ app.post('/api/persons', (req, res) => {
     }))
   }
   
-  if(phonebooks.find((book) => book.name === bodyData.name)) {
+  if(Person.find((book) => book.name === bodyData.name)) {
     return(res.status(404).json({
       error: 'name must be unique',
     }))
@@ -135,11 +83,11 @@ app.post('/api/persons', (req, res) => {
     id: generateID(1000000),
   }
 
-  phonebooks = phonebooks.concat(phone)
-  res.json(phonebooks)
+  Person = Person.concat(phone)
+  res.json(Person)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
