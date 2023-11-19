@@ -5,6 +5,13 @@ const morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
 const Person = require('./models/phonebook')
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+}
 
 app.use(cors()) // Cross-Origin Resource Sharing can be enabled with the cors middleware.
 app.use(express.static('dist')) // The build directory of the frontend is served with the express.static middleware.
@@ -36,26 +43,27 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const book = Person.find(book => book.id === id)
-
-  if(book) {
-    res.json(book)
-  }
-  else {
-    res.status(404).end()
-  }
-}) 
-
-app.delete('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  Person = Person.filter(book => book.id !== id)
-  response.status(204).end()
+  Person.findById(request.params.id)
+  .then(person => {
+    // console.log(person)
+    if(person){
+      response.json(person)
+    }
+    else{
+      response.status(404).end()
+    }
+  })
+  .catch(error => next(error))  
 })
 
-const generateID = (max) => {
-  return Math.floor(Math.random() * max);
-}
+
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+  .then(result =>{
+    response.status(204).end()
+  })
+  .catch(error => next(error))
+})
 
 app.post('/api/persons', (req, res) => {
   const bodyData = req.body
@@ -86,6 +94,8 @@ app.post('/api/persons', (req, res) => {
   })
 
 })
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

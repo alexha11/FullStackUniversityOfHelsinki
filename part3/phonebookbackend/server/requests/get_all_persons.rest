@@ -1,13 +1,15 @@
-GET http://localhost:3001/api/persons/
+GET http://localhost:3001/api/persons/6559f981f4d52693ca335f93
 
 ###
 POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Cloud my love",
-    "number": "232231321212"
+    "name": "Cloud stupid",
+    "number": "123"
 }
 
 ###
 GET http://localhost:3001/info
+###
+DELETE http://localhost:3001/api/persons/655a640bb0b40f0944fc74ed
