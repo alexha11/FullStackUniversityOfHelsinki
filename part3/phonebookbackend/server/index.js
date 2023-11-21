@@ -5,33 +5,22 @@ const morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
 const Person = require('./models/phonebook')
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  }
-}
 
 app.use(cors()) // Cross-Origin Resource Sharing can be enabled with the cors middleware.
 app.use(express.static('dist')) // The build directory of the frontend is served with the express.static middleware.
-
 app.use(express.json())
+
+
 morgan.token('body', (request) => JSON.stringify(request.body))
 app.use(morgan(':method :url :status :response-time ms - :body'))
 
 // Route to get the request time and phonebook entries
-app.get('/info', (request, response) => {
-  const date = new Date()
-  response.send(
-  `<p>Phonebook has information for ${Person.length} people</p> 
-  <p> ${date} </p>`
-  )
-
-});
-
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
+app.get('/info', (req, res) => {
+  Person.find({}).then(result => {
+    res.send(`<p>Phonebook has info for ${result.length} people</p>
+    <p>${Date()}</p>`)
+  })
 })
 
 app.get('/api/persons', (request, response) => {
@@ -42,8 +31,8 @@ app.get('/api/persons', (request, response) => {
   })
 })
 
-app.get('/api/persons/:id', (req, res) => {
-  Person.findById(request.params.id)
+app.get('/api/persons/:id', (req, res, next) => {
+  Person.findById(req.params.id)
   .then(person => {
     // console.log(person)
     if(person){
@@ -72,7 +61,7 @@ app.post('/api/persons', (req, res) => {
       error: 'name is missing'
     }))
   }
-
+  
   if(!bodyData.number) {
     return(res.status(404).json({
       error: 'number is missing'
@@ -94,6 +83,37 @@ app.post('/api/persons', (req, res) => {
   })
 
 })
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+
+  Person.findByIdAndUpdate(
+    request.params.id, 
+    {name, number},  
+    { new: true, runValidators: true, context: 'query' }
+    )
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
 
 app.use(errorHandler)
 

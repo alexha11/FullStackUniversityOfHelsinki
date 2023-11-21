@@ -12,4 +12,15 @@ content-type: application/json
 ###
 GET http://localhost:3001/info
 ###
-DELETE http://localhost:3001/api/persons/655a640bb0b40f0944fc74ed
+DELETE http://localhost:3001/api/persons/655a8daeff0a36047ad1c4e6
+###
+GET http://localhost:3001/api/persons/655c5cfe12e59c08915432f8
+
+###
+PUT http://localhost:3001/api/persons/6559f981f4d52693ca335f93
+content-type: application/json
+
+{
+    "name": "Sofia",
+    "number": "123"
+}
