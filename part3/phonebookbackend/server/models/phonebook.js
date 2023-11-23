@@ -7,6 +7,7 @@ const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
 
+
 mongoose.connect(url)
 
   .then(result => {
@@ -32,8 +33,12 @@ const personSchema = new mongoose.Schema({
   //   minlength: 8,
   //   required: true,
   // },
-  name: String,
-  numberm: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+  },
+  number: String,
 })
 
 personSchema.set('toJSON', {
