@@ -37,12 +37,13 @@ const App = () => {
     const nameObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
+      
     };
     let foundPerson = persons.find((person) => person.name === newName)
     if (persons.find((person) => person.name === newName)) {
       window.confirm(foundPerson.name + ' is already added to phonebook, replace the old number with a new one?')
       console.log(foundPerson.id)
+      console.log('duongdeptrai')
       personService
         .update(foundPerson.id, nameObject)
         .then(() => {
@@ -59,12 +60,22 @@ const App = () => {
         })
         
     } else {
-      setSuccessMessage('Added ' + newName)
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
-      setPersons([...persons, nameObject]);
-      personService.create(nameObject)
+      personService
+      .create(nameObject)
+      .then(createdPerson => {
+        setSuccessMessage('Added ' + newName)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+        setPersons([...persons, nameObject]);
+      })
+      .catch(error => {
+        setErrorMessage(error.response.data.error)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+        console.log(error.response.data.error)
+      })
 
     }
     setNewName('');
@@ -89,13 +100,18 @@ const App = () => {
   );
 
   const handleDelete = (id, name) => {
-   window.confirm('Delete ' + name + ' ?')
-      personService
-      .remove(id).then((deletedPersons => {
-        setPersons(
-          persons.filter((person) => person.name !== deletedPersons.name)
-        )
-      }))
+   if (window.confirm('Delete ' + name + ' ?')) {
+    setSuccessMessage('Deleted ' + name + 'successfully <3 Please reload the page!')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    personService
+    .remove(id).then((deletedPersons => {
+      setPersons(
+        persons.filter((person) => person.name !== deletedPersons.name)
+      )
+    }))
+   }
   }
 
   return (
