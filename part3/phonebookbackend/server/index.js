@@ -1,4 +1,4 @@
-const { response } = require('express');
+const { response } = require('express')
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -25,34 +25,34 @@ app.get('/info', (req, res) => {
 
 app.get('/api/persons', (request, response) => {
   Person
-  .find({})
-  .then(people => {
-    response.json(people)
-  })
+    .find({})
+    .then(people => {
+      response.json(people)
+    })
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
   console.log(req.params.id)
   Person.findById(req.params.id)
-  .then(person => {
-    console.log(person)
-    if(person){
-      response.json(person)
-    }
-    else{
-      response.status(404).end()
-    }
-  })
-  .catch(error => next(error))  
+    .then(person => {
+      console.log(person)
+      if(person){
+        response.json(person)
+      }
+      else{
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))  
 })
 
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-  .then(result =>{
-    response.status(204).end()
-  })
-  .catch(error => next(error))
+    .then(result =>{
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (req, res, next) => {
@@ -81,10 +81,10 @@ app.post('/api/persons', (req, res, next) => {
     number: bodyData.number
   })
   person.save()
-  .then(data => {
-    res.json(data)
-  })
-  .catch(error => next(error))
+    .then(data => {
+      res.json(data)
+    })
+    .catch(error => next(error))
 
 })
 
@@ -100,7 +100,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     request.params.id, 
     newPerson,  
     { new: true, runValidators: true, context: 'query' }
-    )
+  )
     .then(updatedPerson => {
       response.json(updatedPerson)
     })
