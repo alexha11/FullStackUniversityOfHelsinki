@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+    "title": "Duong dep", 
+    "author": "Duong",
+    "url": "https://www.youtube.com/watch?v=764HZqyYffU",
+    "likes": 23
+
+}
