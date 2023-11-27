@@ -2,9 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Duong dep", 
-    "author": "Duong",
+    "title": "Test", 
+    "author": "test1",
     "url": "https://www.youtube.com/watch?v=764HZqyYffU",
-    "likes": 23
+    "likes": 24
 
 }
