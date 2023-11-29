@@ -11,7 +11,15 @@ const totalLikes = (listBlog) => {
     return sum
 }
 
+// const favoriteBlog = (blogs) => {
+//     for(var i = 0; i < blogs.length; i++) {
+        
+//     }
+    
+// }
+
 module.exports = {
     dummy,
-    totalLikes
+    totalLikes,
+    // favoriteBlog
 }
