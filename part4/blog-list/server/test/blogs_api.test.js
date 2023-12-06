@@ -17,7 +17,7 @@ test('blogs are returned as json', async () => {
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/)
-}, 100000)
+})
 
 test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
@@ -30,52 +30,67 @@ test('id is identified', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
-// test('a specific note is within the returned notes', async () => {
-//     const response = await api.get('/api/notes')
-
-//     const contents = response.body.map(r => r.content)
-
-//     expect(contents).toContain(
-//         'Browser can execute only JavaScript'
-//     )
-// })
-
-// test('a valid blog can be added ', async () => {
-//     const newNote = {
-//         content: 'async/await simplifies making async calls',
-//         important: true,
-//     }
-
-//     await api
-//         .post('/api/notes')
-//         .send(newNote)
-//         .expect(201)
-//         .expect('Content-Type', /application\/json/)
-
-//     const notesAtEnd = await helper.notesInDb()
-//     expect(notesAtEnd).toHaveLength(helper.initialNotes.length + 1)
-
-//     const contents = notesAtEnd.map(n => n.content)
-//     expect(contents).toContain(
-//         'async/await simplifies making async calls'
-//     )
-// })
-
 test('a valid note can be added to the database', async () => {
     const newBlog = {
-        'title': 'test',
+        'title': 'DuongDepTrai',
         'author': 'test1',
         'url': 'https://www.youtube.com/watch?v=764HZqyYffU',
         'likes': 24
     }
     await api
-        .post('./api/blogs')
+        .post('/api/blogs')
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
-    const answer = await helper.blogsInDB()
+    const actualAnswer = await helper.blogsInDB()
+    const expectedAnswer = helper.blogs.length + 1
+    expect(actualAnswer).toHaveLength(expectedAnswer)
 
+    const titleOfBlog = actualAnswer.map(content => content.title)
+    expect(titleOfBlog).toContain('DuongDepTrai')
+})
 
+test('if like is missing, the default will be 0', async () => {
+    const newBlog = { 
+        'title': 'ThuVanXau',
+        'author': 'ThuVan',
+        'url': 'https://fullstackopen.com/en/part4/testing_the_backend#exercises-4-8-4-12',
+        'likes': null, 
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    const actualAnswer = await helper.blogsInDB()
+    const expectedAnswer = helper.blogs.length + 1
+    expect(actualAnswer).toHaveLength(expectedAnswer)
+
+    const likeOfBlog = actualAnswer.map(content =>  content.likes)
+    expect(likeOfBlog).not.toContain(null)
+})
+
+test('if title or url are missing, response 400', async () => {
+    const newBlog1 = {
+        'author': 'test2',
+        'url': 'thuvan123',
+        'likes': 12
+    }
+    const newBlog2 = {
+        'title': 'testThuVan12423',
+        'author': 'test2',
+        'likes': 12
+    }
+
+    await api 
+        .post('/api/blogs')
+        .send(newBlog1)
+        .expect(400)
+    await api 
+        .post('/api/blogs')
+        .send(newBlog2)
+        .expect(400)
 })
 
 // test('note without content is not added', async () => {
