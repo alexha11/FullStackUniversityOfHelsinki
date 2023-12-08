@@ -93,6 +93,44 @@ test('if title or url are missing, response 400', async () => {
         .expect(400)
 })
 
+describe('delete', () => {
+    test('can delete a blog', async() => {
+        const blogs = await helper.blogsInDB()
+        const theFirstBlog = blogs[0]
+        //console.log(theFirstBlog)
+
+        await api
+            .delete('/api/blogs/' + theFirstBlog.id)
+            .expect(204)
+        const actualBlogs = await helper.blogsInDB()
+        expect(actualBlogs).toHaveLength(helper.blogs.length - 1)
+
+        const titles = actualBlogs.map(blogs => blogs.title)
+        expect(titles).not.toContain(theFirstBlog.title)
+    })
+})
+
+describe('update', () => {
+    test('can update a blog', async () => {
+        const blogs = await helper.blogsInDB()
+        const theFirstBlog = blogs[0]
+        const updatedBlog = {
+            'author': theFirstBlog.author,
+            'title': theFirstBlog.title,
+            'url': theFirstBlog.url,
+            'likes': 9999999,
+        }
+        await api
+            .put('/api/blogs/' + theFirstBlog.id)
+            .send(updatedBlog)
+    
+        const actualAnsw = await helper.blogsInDB()
+        //console.log(actualAnsw)
+        const testAns = actualAnsw.find(blog => blog.id === theFirstBlog.id)
+        // console.log(testAns)
+        expect(testAns.likes).toEqual(9999999)
+    })
+})
 // test('note without content is not added', async () => {
 //     const newNote = {
 //         important: true
