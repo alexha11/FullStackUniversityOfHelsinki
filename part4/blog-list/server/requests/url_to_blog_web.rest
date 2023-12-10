@@ -8,3 +8,14 @@ Content-Type: application/json
     "likes": 24
 
 }
+######
+POST http://localhost:3003/api/users 
+Content-Type: application/json
+
+{
+    "username": "dsffdsfsddf",
+    "name": "thanhduong213",
+    "passwordHash": "passworkdsfddssdfjasfdkl",
+    "notes": []
+}
+
