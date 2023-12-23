@@ -3,12 +3,13 @@ const mongoose = require('mongoose')
 const blogSchema = new mongoose.Schema({
     title: String,
     author: String,
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
     url: String,
-    likes: Number
+    likes: Number,
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+
+    }
 })
 
 blogSchema.set('toJSON', {
@@ -19,4 +20,8 @@ blogSchema.set('toJSON', {
     }
 })
 
+
 module.exports = mongoose.model('Blog', blogSchema)
+
+
+

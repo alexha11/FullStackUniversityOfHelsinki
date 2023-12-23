@@ -9,7 +9,7 @@ const getTokenFrom = request => {
         return authorization.replace('Bearer ', '')
     }
     return null
-}
+  }
 
 blogsRouter.get('/', async (request, response) => {
     // Blog
@@ -17,26 +17,26 @@ blogsRouter.get('/', async (request, response) => {
     //     .then(blogs => {
     //         response.json(blogs)
     //     })
-    const data = await Blog.find({}).populate('user', { username: 1, name: 1 })
+    const data = await Blog.find({}).populate('user', { username: 1, name: 1} )
     response.json(data)
     
 })
   
 blogsRouter.post('/', async (request, response) => {
     const blogData = request.body
-    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
     const user = await User.findById(decodedToken.id)
-    //const user = await User.findById(blogData.userID)
 
     const blog = new Blog({
         title: blogData.title,
         author: blogData.author,
+        user: user._id,
         url: blogData.url,
-        likes: blogData.likes,
-        user: user.id
+        likes: blogData.likesa
     })
 
     if (!blog.likes) {
@@ -54,15 +54,21 @@ blogsRouter.post('/', async (request, response) => {
         //         response.status(201).json(result)
         //     })
         const data = await blog.save()
-        user.blogs = user.blogs.concat(data._id)
-        await user.save()
         response.status(201).json(data)
     }
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-    await Blog.findByIdAndDelete(request.params.id)
-    response.status(204).end()
+    const user = request.user
+    const blog = await Blog.findById(request.params.id)
+    if(user._id.toString() === blog.user.toString()) {
+        await Blog.findByIdAndDelete(request.params.id)
+        response.status(204).end()
+    }    
+    else {
+        return response.status(401).json({ error: 'only the creaters can delete their blogs'})
+    }
+    
 })
 
 blogsRouter.put('/:id', async (request, response) => {
