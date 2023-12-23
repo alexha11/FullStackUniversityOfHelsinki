@@ -2,10 +2,11 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Test", 
-    "author": "test1",
+    "title": "ThuVan", 
+    "author": "thuvanngu",
     "url": "https://www.youtube.com/watch?v=764HZqyYffU",
-    "likes": 24
+    "likes": 24231,
+    "userID": "657710464f804627692af017"
 
 }
 ######
@@ -13,9 +14,20 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "dsffdsfsddf",
-    "name": "thanhduong213",
-    "passwordHash": "passworkdsfddssdfjasfdkl",
+    "username": "thanhduong11",
+    "name": "thanhduong",
+    "passwordHash": "abcd12345",
     "notes": []
 }
 
+########
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "thanhduong11",
+    "password": "abcd12345"
+}
+
+########
+DELETE http://localhost:3003/api/users

@@ -37,17 +37,14 @@ usersRouter.post('/', async (request, response) => {
 
 usersRouter.get('/', async (request, response) => {
     const users = await User
-        .find({})
+        .find({}).populate('blogs', { title: 1, author: 1, url: 1, id: 1 })
 
     //.populate('notes', { content: 1, important: 1 })
     response.json(users)
 })
 
 // usersRouter.delete('/', async(req, res) => {
-//     const users = await User.find({})
-//     const usersID = users.map(x => x.id)
-//     usersID.map(id => {await User.findByIdAndDelete(id)})
-
+//     await User.deleteMany({})
 // })
 
 module.exports = usersRouter
