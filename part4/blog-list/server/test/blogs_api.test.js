@@ -5,11 +5,47 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog-list')
+const User = require('../models/user')
 const helper = require('./test_helper')
+
+var loginToken = ''
+
+beforeEach(async () => {
+    const user = {
+        'username': 'thanhduongTest',
+        'name': 'abcd',
+        'passwordHash': 'abcd123456',
+        'notes': []
+        
+    }
+    await User.deleteMany({})
+    await User.insertMany(user)
+})
 
 beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(helper.blogs)
+    
+    // const res = await api
+    //     .post('/api/login')
+    //     .send({
+    //         username: 'thanhduongTest',
+    //         password: 'abcd123456'
+    //     })
+    // token = res.body.token 
+}, 10000000)
+
+beforeEach(async ( )=> {
+    const response = await api
+        .post('/api/login')
+        .send({
+            username: 'thanhduongTest',
+            password: 'abcd123456'
+        })
+
+    loginToken = response.body.token
+    console.log('this one is the one u are looking for' + loginToken)
+
 })
 
 test('blogs are returned as json', async () => {
@@ -30,7 +66,9 @@ test('id is identified', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
-test('a valid note can be added to the database', async () => {
+test('a valid blog can be added to the database', async () => {
+    //console.log('this one is the one u are looking for' + loginToken)
+
     const newBlog = {
         'title': 'DuongDepTrai',
         'author': 'test1',
@@ -39,7 +77,8 @@ test('a valid note can be added to the database', async () => {
     }
     await api
         .post('/api/blogs')
-        .send(newBlog)
+        .set('Authorization', 'Bearer ' + loginToken)      
+        .send(newBlog)  
         .expect(201)
         .expect('Content-Type', /application\/json/)
     const actualAnswer = await helper.blogsInDB()
@@ -48,7 +87,7 @@ test('a valid note can be added to the database', async () => {
 
     const titleOfBlog = actualAnswer.map(content => content.title)
     expect(titleOfBlog).toContain('DuongDepTrai')
-})
+}) // still some errors for the last one <= do not know why
 
 test('if like is missing, the default will be 0', async () => {
     const newBlog = { 
