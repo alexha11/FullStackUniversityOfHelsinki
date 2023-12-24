@@ -1,6 +1,7 @@
 const { request, response } = require('../app')
 const logger = require('./logger')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const requestLogger = (req, res, next) => {
     logger.info('Method:', req.method)
@@ -18,7 +19,7 @@ const errorHandler = (error, req, res, next) => {
     logger.error(error.message)
 
     if (error.name === 'CastError') {
-        return res.status(400).send({ error: 'malformatted id' })
+        return res.status(400).send({ error: error.message })
     } else if (error.name === 'ValidationError') {
         return res.status(400).json({ error: error.message })
     } else if (error.name === 'JsonWebTokenError') {
@@ -42,7 +43,7 @@ const userExtractor = async (request, response, next) => {
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
-    request.user = await User.findById(decodedToken)
+    request.user = await User.findById(decodedToken.id)
     next()
 }
 

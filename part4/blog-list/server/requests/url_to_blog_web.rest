@@ -13,9 +13,9 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "thuvan123",
-    "name": "thuvan",
-    "passwordHash": "abcd12345",
+    "username": "thanhduongTest",
+    "name": "abcd",
+    "passwordHash": "abcd123456",
     "notes": []
 }
 
@@ -24,14 +24,14 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username": "thuvan123",
-    "password": "abcd12345"
+    "username": "thanhduongTest",
+    "password": "abcd123456"
 }
 
 ###
 POST http://localhost:3003/api/blogs 
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRodXZhbjEyMyIsImlkIjoiNjU4NDY1NTU3YzIxNTBlNDZmZTQzMDg1IiwiaWF0IjoxNzAzMTc5MTc5fQ.0Qx16Um6zeTc8XQJzAU7wKXk5ml5PbV9iRmgCgjqkHw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoYW5oZHVvbmdUZXN0IiwiaWQiOiI2NTg4NDY0MTEyNjUxYTZmOWJmNTgwZTkiLCJpYXQiOjE3MDM0Mjk3Mjh9.0_uJgMF0PTHXRV3ZJU0a89B-3nwTKuEqcr3BcVZ86ms
 
 {
     "title": "another blog 2", 
@@ -40,9 +40,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRod
     "likes": 1
 }
 ###
-DELETE http://localhost:3003/api/blogs/658480d8cc7a78ceeb40f52e
+DELETE http://localhost:3003/api/blogs/6588526318bc50873d7eda37
 content-type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRodXZhbjEyMyIsImlkIjoiNjU4NDY1NTU3YzIxNTBlNDZmZTQzMDg1IiwiaWF0IjoxNzAzMTc5MTc5fQ.0Qx16Um6zeTc8XQJzAU7wKXk5ml5PbV9iRmgCgjqkHw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoYW5oZHVvbmdUZXN0IiwiaWQiOiI2NTg4NDY0MTEyNjUxYTZmOWJmNTgwZTkiLCJpYXQiOjE3MDM0Mjk3Mjh9.0_uJgMF0PTHXRV3ZJU0a89B-3nwTKuEqcr3BcVZ86ms
+
 
 
 
