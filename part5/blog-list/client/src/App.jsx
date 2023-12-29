@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import { NewBlog } from './components/NewBlog'
-
+import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -17,7 +17,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  
+
+  const blogFormRef = useRef()
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -106,6 +108,8 @@ const App = () => {
 
   const handleBlogService_Create = async (newBlog) => {         //using created blogService to create a new blog but missing a new blog
     try {
+      blogFormRef.current.toggleVisibility()
+
       const response = await blogService.create(newBlog)
       setBlogs(blogs.concat(response))
       
@@ -149,19 +153,25 @@ const App = () => {
     </div>    
   )
 
-  const blogForm = () => (
-    <div>
+  const blogForm = () => {
+    
+    return (
       <div>
-        <p>{user.name} logged in </p>
-        <button  onClick={handleLogout}>Logout</button>
+        <div>
+          <p>{user.name} logged in </p>
+          <button  onClick={handleLogout}>Logout</button>
+        </div>
+
+        <Togglable buttonLabel="new note" ref={blogFormRef}>
+          <NewBlog handleBlogService_Create={handleBlogService_Create}/>
+        </Togglable>
+       
+        {blogs.map(blog => 
+          <Blog key={blog.id} blog = {blog}/>
+          )}
       </div>
-      
-      <NewBlog handleBlogService_Create={handleBlogService_Create}/>
-      {blogs.map(blog => 
-        <Blog key={blog.id} blog = {blog}/>
-        )}
-    </div>
-  )
+    )
+  }
   
   return(
     <div>
