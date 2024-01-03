@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types'
 
 export const NewBlog = ({handleBlogService_Create}) => {     //dont understand why It doesnt work when only use export default
     const [title, setTitle] = useState('')
@@ -54,6 +55,10 @@ export const NewBlog = ({handleBlogService_Create}) => {     //dont understand w
             </form>
         </div>
     )
+}
+
+NewBlog.propTypes = {
+    handleBlogService_Create: PropTypes.func.isRequired
 }
 
 export default {NewBlog}
