@@ -82,7 +82,11 @@ describe('Blog app', function() {
       cy.createBlog( {"title": "a1", "author": "duong", "url": "facebook", "likes": 19} )
       cy.createBlog( {"title": "a2", "author": "van", "url": "facebook", "likes": 12} )
       cy.createBlog( {"title": "a3", "author": "thanhduong", "url": "gmail", "likes": 20} )
-      cy.get('.blog').eq(0)
+      cy.get('.blog').eq(0).should('contain', 'a3 thanhduong')
+      cy.get('.blog').eq(1).should('contain', 'a1 duong')
+      cy.get('.blog').eq(2).should('contain', 'a2 van')
+      cy.get('.blog').eq(3).should('contain', 'software thanhduong11')
+
     }) 
   })
 })

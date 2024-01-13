@@ -20,7 +20,7 @@ blogsRouter.post('/', async (request, response) => {
         author: blogData.author,
         user: user._id,
         url: blogData.url,
-        likes: blogData.likesa
+        likes: blogData.likes
     })
 
     if (!blog.likes) {
