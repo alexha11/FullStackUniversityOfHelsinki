@@ -27,6 +27,7 @@ export const NewBlog = ({handleBlogService_Create}) => {     //dont understand w
                 <div>
                     title:
                     <input  
+                        id='title'
                         type="text"
                         value={title}
                         name="title"
@@ -36,6 +37,7 @@ export const NewBlog = ({handleBlogService_Create}) => {     //dont understand w
                 <div>
                     author:
                     <input
+                        id='author'
                         type="text"
                         value={author}
                         name="author"
@@ -45,13 +47,14 @@ export const NewBlog = ({handleBlogService_Create}) => {     //dont understand w
                 <div>
                     url:
                     <input
+                        id='url'
                         type="text"
                         value={url}
                         name="url"
                         onChange={({ target }) => setUrl(target.value)}
                     />    
                 </div> 
-                <button type="submit">create</button>
+                <button id='createButton' type="submit">create</button>
             </form>
         </div>
     )

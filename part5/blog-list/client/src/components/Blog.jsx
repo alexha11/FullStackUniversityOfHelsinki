@@ -46,16 +46,16 @@ const Blog = ({ blog, user, addLikes,  handleBlogService_Delete}) => {
   }
   
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       {blog.title} {blog.author}  
       <button onClick={toggleVisibility} style={hideWhenVisible}>view</button>
       <button onClick={toggleVisibility} style={showWhenVisible}>hide</button>
       <div style={showWhenVisible}>
         <p>{blog.url}</p>
         likes {blog.likes}
-        <button onClick={handleLikeButton}>like</button>
+        <button id='likeBtn' onClick={handleLikeButton}>like</button>
         <p>{blog.user.name}</p>
-        {authenticateUser() && <button onClick={handleDeleteButton}>remove</button>}
+        {authenticateUser() && <button id="removeButton" onClick={handleDeleteButton}>remove</button>}
       </div>
     </div>  
     
