@@ -26,9 +26,16 @@ const anecdoteSlice = createSlice({
   initialState,
   reducers:{
     addVote(state, action) {
+      // const dispatch = useDispatch()
       const id = action.payload
       const anecdoteToChange = state.find(n => n.id === id)
-      
+      // dispatch(setNotification('you voted ' + anecdoteToChange.content))
+
+      // setTimeout(() => {
+      //   dispatch(removeNotification())
+
+      // }, 5000)
+
       const changedAnecdote = {
         ...anecdoteToChange,
         votes: anecdoteToChange.votes + 1
