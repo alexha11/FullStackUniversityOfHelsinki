@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setNotification, removeNotification } from "../reducers/notificationReducer";
+import { setNotification } from "../reducers/notificationReducer";
 import { increaseLike } from "../reducers/anecdoteReducer";
 
 const AnecdoteList = () => {
