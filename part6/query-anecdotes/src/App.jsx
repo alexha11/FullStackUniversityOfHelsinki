@@ -27,6 +27,7 @@ const App = () => {
     retry: 1
   })
 
+  
   console.log(JSON.parse(JSON.stringify(result)))
 
   if ( result.isLoading ) {
