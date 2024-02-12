@@ -1,0 +1,38 @@
+{
+  "hash": "c4c9df52",
+  "browserHash": "02912870",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "597cd488",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "f65e432c",
+      "needsInterop": true
+    },
+    "@tanstack/react-query": {
+      "src": "../../node_modules/@tanstack/react-query/build/modern/index.js",
+      "file": "@tanstack_react-query.js",
+      "fileHash": "135506d6",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "830d1290",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-P4SDTMBK": {
+      "file": "chunk-P4SDTMBK.js"
+    },
+    "chunk-F3IJBAHG": {
+      "file": "chunk-F3IJBAHG.js"
+    }
+  }
+}

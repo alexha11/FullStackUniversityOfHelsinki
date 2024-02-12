@@ -1,16 +1,19 @@
-const Notification = () => {
+const Notification = (noti) => {
   const style = {
     border: 'solid',
     padding: 10,
     borderWidth: 1,
     marginBottom: 5
   }
+  //console.log('duong test ' + JSON.stringify(noti.noti))
   
-  if (true) return null
-
   return (
-    <div style={style}>
-      
+    <div>
+      {
+      noti === '' 
+        ? <div></div>
+        : <div style={style}>{noti.noti}</div> 
+      }
     </div>
   )
 }

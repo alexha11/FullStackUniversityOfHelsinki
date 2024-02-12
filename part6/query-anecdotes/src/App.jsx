@@ -2,7 +2,23 @@ import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getAnecdots, createAnec, updateAnec } from './request'
+import { useReducer } from 'react'
+
+const notiReducer = (state, action) => {
+  switch (action.type) {
+    case "notiVote":
+      return 'you voted ' + action.content
+    case "notiCreate":
+      return 'you created ' + action.content
+    default:
+      return ''
+    
+  }
+}
+
 const App = () => {
+  const [noti, notiDispatch] = useReducer(notiReducer, '')
+
   const queryClient = useQueryClient()
 
   const getID = () => (10000*Math.random()).toFixed(0)
@@ -27,7 +43,7 @@ const App = () => {
     retry: 1
   })
 
-  
+
   console.log(JSON.parse(JSON.stringify(result)))
 
   if ( result.isLoading ) {
@@ -52,10 +68,18 @@ const App = () => {
     console.log(id)
     const anec = anecdotes.find(anec => anec.id === id)
     updateAnecMutation.mutate({...anec, votes: anec.votes + 1})
+    notiDispatch({ type: "notiVote", content: anec.content })
+    setTimeout(() => {
+      notiDispatch({ type: "default", content: '' })
+    }, 5000)
   }
 
   const addAnec = (content) => {
     newAnecMutation.mutate({content, id: getID(), votes: 0})
+    notiDispatch({ type: "notiCreate", content: content })
+    setTimeout(() => {
+      notiDispatch({ type: "default", content: '' })
+    }, 5000)
 
   }
 
@@ -63,7 +87,7 @@ const App = () => {
     <div>
       <h3>Anecdote app</h3>
     
-      <Notification />
+      <Notification noti={noti}/>
       <AnecdoteForm addAnec={addAnec}/>
     
       {anecdotes.map(anecdote =>
