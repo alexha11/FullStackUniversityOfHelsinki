@@ -10,6 +10,8 @@ const notiReducer = (state, action) => {
       return 'you voted ' + action.content
     case "notiCreate":
       return 'you created ' + action.content
+    case "error":
+      return 'too short anecdote, must have length 5 or more'
     default:
       return ''
     
@@ -28,6 +30,12 @@ const App = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['anecdotes']}) //call query anecdotes again 
     },
+    onError: () => {
+      notiDispatch({ type: "error"})
+      setTimeout(() => {
+        notiDispatch({ type: "default"})
+      }, 5000)
+    }
   })
 
   const updateAnecMutation = useMutation({
@@ -70,7 +78,7 @@ const App = () => {
     updateAnecMutation.mutate({...anec, votes: anec.votes + 1})
     notiDispatch({ type: "notiVote", content: anec.content })
     setTimeout(() => {
-      notiDispatch({ type: "default", content: '' })
+      notiDispatch({ type: "default"})
     }, 5000)
   }
 
@@ -78,7 +86,7 @@ const App = () => {
     newAnecMutation.mutate({content, id: getID(), votes: 0})
     notiDispatch({ type: "notiCreate", content: content })
     setTimeout(() => {
-      notiDispatch({ type: "default", content: '' })
+      notiDispatch({ type: "default"})
     }, 5000)
 
   }
