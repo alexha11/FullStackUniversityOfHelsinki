@@ -2,6 +2,18 @@
 
 https://fullstackopen.com
 
-# My certificate
+# Deployed web 
+- There are still many more application in this repository but I chose the two popular ones: 
 
-https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/60e929280aa118ce34ec21a94f07ac0f
+## Blog App (part 5)
+
+Live demo: https://blog-app-kiqx.onrender.com      
+  
+For the demo, you can login in blog app with following credentials:
+  - username: Guest_Login_For_Demo
+  - password: 48eqlFbt1gVF7xOOkaA9cYoy2
+
+
+## Phone book (part 3)
+
+Live demo: https://bphone-book.onrender.com/      
