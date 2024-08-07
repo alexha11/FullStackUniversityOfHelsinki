@@ -3,7 +3,7 @@
 https://fullstackopen.com
 
 # Deployed web 
-- There are still many more application in this repository but I chose the two popular ones: 
+- There are still many more applications in this repository but I chose the two popular ones: 
 
 ## Blog App (part 5)
 
