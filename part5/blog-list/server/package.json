@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
+    "start": "nodemon index",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build:ui": "rm -rf dist && cd ../client/ && npm run build && cp -r dist ../server",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
